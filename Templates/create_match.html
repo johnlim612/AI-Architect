@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %} Create Match{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/create_match.css') }}">
+{% endblock %}
+
+{% block content %}
+    <input class="search-box" placeholder="Search Name" required> 
+    <button type="button" class="btn btn-primary btn-lg" onclick=create_teams()>Create Teams</button>
+
+    <!-- Search Results -->
+    <div class="results list-group"></div>
+    
+    <!-- Full Player List -->
+    <div>Selected Debaters</div>
+    <ul id="active-player-list" class="list-group"></ul>
+
+    </br></br>
+    
+
+    <!-- team list -->
+    <div class="container-fluid ">
+        <div class="row ">
+            <div class="col-sm" id="team-a">
+                <div class="list-group-item team-text " style="color:blue; font-weight: bold;" >Team A</div>
+            </div>
+            <div class="col-sm" id="team-b">
+                <div class="list-group-item team-text " style="color:red; font-weight: bold;">Team B</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let debounce;
+            $('.search-box').on('keydown', function (e) {
+                clearTimeout(debounce)
+                debounce = setTimeout(() => {
+                    getAutoComplete();
+                }, 300)
+            })
+
+        })
+
+        function getAutoComplete() {
+            const query = $('.search-box').val();
+            if (!query) {
+                $('.results').empty();
+                return
+            }
+
+            $.ajax({     
+                url: `/search?search_term=${query}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('.results').empty();
+                    for (let i = 0; i < data.length; i++)
+                    {
+                        $('.results').append(`<a href="#" class="list-group-item list-group-item-action" onclick=addPlayerToGame(this)>${data[i]}</a>`)
+                    }
+                },
+                error: function(error) {
+                    console.error('Error ', error)
+                }
+            })
+        }
+
+        function addPlayerToGame(name) {
+            $('.results').empty();
+            $('.searchbox').val = "";
+            $('#active-player-list').append(`<li class="list-group-item">${name.innerHTML}</li>`)
+        }
+
+        function create_teams() {
+            var player_query = $('#active-player-list li').map(function() {
+                return this.textContent.trim();
+            }).get();
+
+            $.ajax({     
+                url: `/create_teams?added_players=${JSON.stringify(player_query)}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data)
+                    for (let i = 0; i < data[0].length; i++)
+                    {   
+                        $('#team-a').append(`<div class="list-group-item">${data[0][i]['name']} something </div>`)
+                    }
+
+                    for (let i = 0; i < data[1].length; i++)
+                    {
+                        $('#team-b').append(`<div class="list-group-item">${data[1][i]['name'] } something </div>`)
+                    }
+                },
+                error: function(error) {
+                    console.error('Error ', error)
+                }
+            })
+        }
+
+    </script>
+{% endblock %}

@@ -1,0 +1,26 @@
+Match making system features
+
+Create Player ()
+Forms: Name, Rating=1000, Pref Role=fill
+
+autofill()	
+Select Players team 1
+search suggestion system add 
+Select Players team 2
+search suggestion system add 
+
+Team 1: person a, b, c  (role = fill, delete button)
+Team 2: person d, person e, person f
+
+Matching Making()
+
+
+Winning/Losiing: Each player Gain/Lose (Base 100 + (Personal Rank - Team Avg Rank) * -1/10) Min 20, Max 200
+
+Data Structure
+Players: 
+	Name:
+		Rating:
+		Preferred role:
+	Name:
+	

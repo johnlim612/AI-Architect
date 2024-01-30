@@ -1,0 +1,32 @@
+[
+    {
+        "name": "john",
+        "rating": 1500,
+        "role": 0
+    },
+    {
+        "name": "jo",
+        "rating": 1500,
+        "role": 0
+    },
+    {
+        "name": "ohn",
+        "rating": 1500,
+        "role": 0
+    },
+    {
+        "name": "patrick",
+        "rating": 1500,
+        "role": 0
+    },
+    {
+        "name": "jake",
+        "rating": 1500,
+        "role": 0
+    },
+    {
+        "name": "jacob",
+        "rating": 1000,
+        "role": 0
+    }
+]
